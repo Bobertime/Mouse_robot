@@ -30,7 +30,7 @@ int enB = 6 ;
 int baseSpeed = 60 ;
 
 int borderWall = 10;
-int straightWall = 5;
+int straightWall = 4;
 
 String durection = "FORWARD";
 
@@ -93,8 +93,15 @@ void Move() {
     digitalWrite(m1p2, LOW);
     digitalWrite(m2p1, HIGH);
     digitalWrite(m2p2, LOW);
-    analogWrite(enA, baseSpeed - 10);
-    analogWrite(enB, baseSpeed + 25);
+    analogWrite(enA, baseSpeed);
+    analogWrite(enB, baseSpeed + 15);
+  } else if (durection == "RIGHT") {
+    digitalWrite(m1p1, HIGH);
+    digitalWrite(m1p2, LOW);
+    digitalWrite(m2p1, HIGH);
+    digitalWrite(m2p2, LOW);
+    analogWrite(enA, baseSpeed + 15);
+    analogWrite(enB, baseSpeed);
   } else if (durection == "STOP") {
     digitalWrite(m1p1, LOW);
     digitalWrite(m1p2, LOW);
@@ -104,11 +111,13 @@ void Move() {
 }
 
 void Wall() {
-  if(lSensor > 10) {
-    durection = "LEFT";
-
-
-  } else {
+  if (fSensor > 10 && rSensor < 10 && lSensor < 10) {
     durection = "FORWARD";
+  } else if (lSensor > 10) {
+    durection = "LEFT";
+  } else if (lSensor < 10 && fSensor < 10 && rSensor > 10) {
+    durection == "RIGHT";
+  } else if (lSensor < 10 && fSensor < 10 && rSensor < 10) {
+    durection = "LEFT";
   }
 }
